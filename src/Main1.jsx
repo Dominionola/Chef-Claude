@@ -1,22 +1,25 @@
 import React from "react";
 
-export default function Main() {
+// Main1 component manages a list of ingredients and allows adding new ones
+export default function Main1() {
+  // State to hold the list of ingredients
   const [ingredients, setIngredients] = React.useState(["Chicken"]);
 
+  // Map each ingredient to a <li> element for display
   const ingredientsListItems = ingredients.map((ingredient) => (
     <li key={ingredient}>{ingredient}</li>
   ));
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const newIngredient = formData.get("ingredient");
-    setIngredients((prev) => [...prev, newIngredient]);
+  // Handles form submission to add a new ingredient
+  function addIngredient(formData) {
+    const newIngredient = formData.get("ingredient"); // Get input value
+    setIngredients((prevIngredients) => [...prevIngredients, newIngredient]); // Add new ingredient to state
   }
 
   return (
     <main>
-      <form onSubmit={handleSubmit} className="add-ingredient-form">
+      {/* Form to add a new ingredient */}
+      <form action={addIngredient} className="add-ingredient-form">
         <input
           type="text"
           placeholder="e.g. oregano"
@@ -25,6 +28,7 @@ export default function Main() {
         />
         <button>Add ingredient</button>
       </form>
+      {/* Display the list of ingredients */}
       <ul>{ingredientsListItems}</ul>
     </main>
   );
