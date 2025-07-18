@@ -3,7 +3,7 @@ import React from "react";
 // Main1 component manages a list of ingredients and allows adding new ones
 export default function Main1() {
   // State to hold the list of ingredients
-  const [ingredients, setIngredients] = React.useState(["Chicken"]);
+  const [ingredients, setIngredients] = React.useState([]);
 
   // Map each ingredient to a <li> element for display
   const ingredientsListItems = ingredients.map((ingredient) => (
@@ -28,8 +28,21 @@ export default function Main1() {
         />
         <button>Add ingredient</button>
       </form>
-      {/* Display the list of ingredients */}
-      <ul>{ingredientsListItems}</ul>
+      {ingredients.length > 0 ? (
+        <section>
+          <h2>Ingredients on hand:</h2>
+          <ul className="ingredients-list" aria-live="polite">
+            {ingredientsListItems}
+          </ul>
+          <div className="get-recipe-container">
+            <div>
+              <h3>Ready for a recipe?</h3>
+              <p>Generate a recipe from your list of ingredients.</p>
+            </div>
+            <button>Get a recipe</button>
+          </div>
+        </section>
+      ) : null}
     </main>
   );
 }
