@@ -21,12 +21,7 @@ import { getRecipeFromMistral } from "../ai";
  */
 
 export default function Main() {
-  const [ingredients, setIngredients] = React.useState([
-    "Tomato",
-    "Rice",
-    "Beans",
-    "Egg",
-  ]);
+  const [ingredients, setIngredients] = React.useState([]);
   const [recipeShown, setRecipeShown] = React.useState(false);
   const [recipe, setRecipe] = React.useState("");
 

@@ -1,8 +1,9 @@
+import Markdown from "react-markdown";
 export default function ClaudeRecipe(props) {
   return (
-    <section>
-      <h2>Chef's Recommended Recipe</h2>
-      <pre>{props.recipe}</pre> {/* Displays raw markdown cleanly */}
+    <section className="suggested-recipe-container" aria-live="polite">
+      <h2>Chef Claude Recommends</h2>
+      <Markdown>{props.recipe}</Markdown> {/* Displays raw markdown cleanly */}
     </section>
   );
 }
