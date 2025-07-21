@@ -1,30 +1,26 @@
 import React from "react";
 import ClaudeRecipe from "./components/ClaudeRecipe";
 import IngredientsList from "./components/IngredientsList";
+import { getRecipeFromMistral } from "../ai";
+
+/**
+ * Challenge: Get a recipe from the AI!
+ *
+ * This will be a bit harder of a challenge that will require you
+ * to think critically and synthesize the skills you've been
+ * learning and practicing up to this point.
+ *
+ * Using either the `getRecipeFromChefClaude` function or the
+ * `getRecipeFromMistral` function, make it so that when the user
+ * clicks "Get a recipe", the text response from the AI is displayed
+ * in the <ClaudeRecipe> component.
+ *
+ * For now, just have it render the raw markdown that the AI returns,
+ * don't worry about making it look nice yet. (We're going to use a
+ * package that will render the markdown for us soon.)
+ */
 
 export default function Main() {
-  /**
-   * Challenge: clean up our code!
-   * Let's make a couple new components to make things a
-   * little cleaner. (Notice: I'm not suggesting what we
-   * have now is bad or wrong. I'm mostly finding an excuse
-   * to get in some hands-on practice 🙂)
-   *
-   * 1. Move the entire recipe <section> into its own
-   *    ClaudeRecipe component
-   * 2. Move the list of ingredients <section> into its
-   *    own IngredientsList component.
-   *
-   * While you're considering how to structure things, consider
-   * where state is, think about if it makes sense or not to
-   * move it somewhere else, how you'll communicate between
-   * the parent/child components, etc.
-   *
-   * The app should function as it currently does when you're
-   * done, so there will likely be some extra work to be done
-   * beyond what I've listed above.
-   */
-
   const [ingredients, setIngredients] = React.useState([
     "Tomato",
     "Rice",
@@ -32,9 +28,16 @@ export default function Main() {
     "Egg",
   ]);
   const [recipeShown, setRecipeShown] = React.useState(false);
+  const [recipe, setRecipe] = React.useState("");
 
-  function toggleRecipeShown() {
-    setRecipeShown((prevShown) => !prevShown);
+  async function handleGetRecipe() {
+    try {
+      const recipeText = await getRecipeFromMistral(ingredients);
+      setRecipe(recipeText);
+      setRecipeShown(true);
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+    }
   }
 
   function addIngredient(formData) {
@@ -57,11 +60,11 @@ export default function Main() {
       {ingredients.length > 0 && (
         <IngredientsList
           ingredients={ingredients}
-          toggleRecipeShown={toggleRecipeShown}
+          handleGetRecipe={handleGetRecipe}
         />
       )}
 
-      {recipeShown && <ClaudeRecipe />}
+      {recipeShown && <ClaudeRecipe recipe={recipe} />}
     </main>
   );
 }
